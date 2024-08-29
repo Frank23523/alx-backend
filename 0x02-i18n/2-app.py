@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""2-app.py
-"""
+"""2-app.py"""
+
 from flask import Flask, render_template, request
 from flask_babel import Babel
 
@@ -17,12 +17,10 @@ app.config.from_object(Config)
 babel = Babel(app)
 
 
+@babel.localeselector
 def get_locale():
     """Determine the best match with our supported languages"""
     return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-
-babel.init_app(app, locale_selector=get_locale)
 
 
 @app.route('/', strict_slashes=False)
@@ -32,4 +30,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port=5000)
