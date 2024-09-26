@@ -6,24 +6,26 @@ const createPushNotificationsJobs = (jobs, queue) => {
   }
 
   jobs.forEach((jobInfo) => {
-    const job = queue
-      .create('push_notification_code_3', jobInfo)
-      .save((err) => {
-        if (!err) {
-          console.log(`Notification job created: ${job.id}`);
-        }
-      });
+    const job = queue.create('push_notification_code_3', jobInfo);
+
+    job.save((err) => {
+      if (!err) {
+        console.log(`Notification job created: ${job.id || 'unknown'}`);
+      }
+    });
 
     job.on('complete', () => {
-      console.log(`Notification job ${job.id} completed`);
+      console.log(`Notification job ${job.id || 'unknown'} completed`);
     });
 
     job.on('failed', (err) => {
-      console.log(`Notification job ${job.id} failed: ${err}`);
+      console.log(`Notification job ${job.id || 'unknown'} failed: ${err}`);
     });
 
     job.on('progress', (progress) => {
-      console.log(`Notification job ${job.id} ${progress}% complete`);
+      console.log(
+        `Notification job ${job.id || 'unknown'} ${progress}% complete`,
+      );
     });
   });
 };
